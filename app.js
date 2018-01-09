@@ -55,7 +55,7 @@
        
         
         Word.run(function (context) {
-            document.getElementById("show").textContent = "context.document.body.text";
+            document.getElementById("show").textContent = context.document.body.text;
           //  var thisDocument = context.document.getSelection();
            
             // gec_it_post("You are an girl.");
