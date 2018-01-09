@@ -12,26 +12,20 @@
     <body>
         <div id="content-header">
             <div class="padding">
-                <h1>Welcome</h1>
+                <h3>Grammatical Error Correction</h3>
             </div>
         </div>    
         <div id="content-main">
+            <div id='loading-mask'>Checking...</div>
             <div class="padding">
-                <!--<p>Choose the buttons below to add boilerplate text to the document by using the Word JavaScript API.</p>
-                <br />
-                <h3>Try it out</h3>
-                <button id="emerson">Add quote from Ralph Waldo Emerson</button>
-                <br /><br />
-                <button id="checkhov">Add quote from Anton Chekhov</button>
-                <br /><br />
-                <button id="proverb">Add Chinese proverb</button>-->
-                <button id="run">Run </button>
-                <div id='ask'></div>
-               
-                <div id="show">Result: </div>
+                <div class="headline">Origin:</div>
+                <div class="main" id="select-sec"></div>
+                <br>
+                <div class="headline">Correct:</div>
+                <div class="main" id="correct-sec"></div>
             </div>
         </div>
         <br />
-        <div id="supportedVersion"/>
+        <div id="supportedVersion"></div>
     </body>
 </html>
