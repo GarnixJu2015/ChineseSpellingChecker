@@ -52,12 +52,16 @@
         });
     }
     function goToMainPage(){
-       
-        
         Word.run(function (context) {
-            document.getElementById("show").textContent = "context.document.body.text";
-          //  var thisDocument = context.document.getSelection();
-           
+            var thisDocument = context.document
+            var range = thisDocument.getSelection()
+            context.load(range, 'text');
+
+            return context.sync().then(function () {
+                document.getElementById("show").textContent = range.text; 
+            });  
+
+            
             // gec_it_post("You are an girl.");
 
             // Create a proxy object for the document.
