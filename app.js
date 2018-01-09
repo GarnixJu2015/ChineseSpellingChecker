@@ -1,10 +1,12 @@
 'use strict';
 
+
+
 (function () {
     // API_URL = 'http://nlp-ryze.cs.nthu.edu.tw:1214/translate/'
     var API_URL = 'https://fathomless-wave-32876.herokuapp.com/messages';
-    var HEADERS = {'Content-Type': 'application/json; charset=UTF-8'}
-
+    var HEADERS = {'Content-Type': 'application/json; charset=UTF-8', 'Access-Control-Allow-Origin': '*'}
+   
     // The initialize function is run each time the page is loaded.
     Office.initialize = function (reason) {
         $(document).ready(function () {
@@ -16,6 +18,7 @@
                 $('#checkhov').click(insertChekhovQuoteAtTheBeginning);
                 $('#proverb').click(insertChineseProverbAtTheEnd);
                 $('#run').click(goToMainPage);
+               
                 $('#supportedVersion').html('This code is using Word 2016 or greater.');
             }
             else {
@@ -50,6 +53,34 @@
                 console.log('Debug info: ' + JSON.stringify(error.debugInfo));
             }
         });
+    }
+    function helloH(){
+        console.log("hello")
+        $.ajax({
+            type: "POST",
+            url: API_URL,
+            //data: {'text': query},
+            data: JSON.stringify({text: "discuss about the issue."}),
+            headers: HEADERS,
+            // contentType: 'application/json',
+            //contentType: HEADERS,
+            dataType: 'json',
+            success: function (data) {
+                console.log("success");
+                $('#show').html("success");
+             
+                // document.getElementById("show").textContent = "success: " + data; 
+               
+                // document.getElementById("show").textContent = data.result;
+            }, 
+            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                console.log("Status: " + textStatus); 
+                console.log("Error: " + errorThrown);
+                $('#show').html("error: "+ +JSON.stringify( errorThrown )+"<br>Request:"+ JSON.stringify(XMLHttpRequest));
+              //   document.getElementById("show").textContent = "error: " +  errorThrown.val(); 
+            } 
+          })
+
     }
     function goToMainPage(){
        
@@ -109,27 +140,29 @@
 
     function gec_it_post(query){
         
-        document.getElementById("ask").textContent = "Ask11:" + query;
+        // document.getElementById("ask").textContent = "Question:" + query + "<br>";
+        $('#ask').html( query + "<br><br>");
         $.ajax({
             type: "POST",
             url: API_URL,
-            data: JSON.parse({'text': query}),
+            //data: {'text': query},
+            data: JSON.stringify({text: query}),
             headers: HEADERS,
             // contentType: 'application/json',
             //contentType: HEADERS,
             dataType: 'json',
             success: function (data) {
                 console.log("success");
-                $('#show').html("success");
+                $('#show').html(data.result);
              
-                // document.getElementById("show").textContent = "success: " + data; 
+               //  document.getElementById("show").textContent = "success: " + data; 
                
                 // document.getElementById("show").textContent = data.result;
             }, 
             error: function(XMLHttpRequest, textStatus, errorThrown) { 
                 console.log("Status: " + textStatus); 
                 console.log("Error: " + errorThrown);
-                $('#show').html("error: "+ JSON.stringify( errorThrown )+"<br>Request:"+ JSON.stringify(XMLHttpRequest));
+                $('#show').html("error");
               //   document.getElementById("show").textContent = "error: " +  errorThrown.val(); 
             } 
           })
@@ -181,3 +214,9 @@
         });
     }
 })();
+
+
+
+// $( document ).ready(function() {
+//     $('#hello').click(helloH);
+// });
