@@ -2,8 +2,8 @@
 
 (function () {
     // API_URL = 'http://nlp-ryze.cs.nthu.edu.tw:1214/translate/'
-    // API_URL_1 = 'http://nlp-ryze.cs.nthu.edu.tw:1215/translate/'
-    // HEADERS = {'Content-Type': 'application/json; charset=UTF-8'}
+    var API_URL = 'https://fathomless-wave-32876.herokuapp.com/messages';
+    var HEADERS = {'Content-Type': 'application/json; charset=UTF-8'}
 
     // The initialize function is run each time the page is loaded.
     Office.initialize = function (reason) {
@@ -53,11 +53,17 @@
     }
     function goToMainPage(){
        
-        
         Word.run(function (context) {
-            document.getElementById("show").textContent = context.document.body.text;
-          //  var thisDocument = context.document.getSelection();
-           
+            var thisDocument = context.document
+            var range = thisDocument.getSelection()
+            context.load(range, 'text');
+
+            return context.sync().then(function () {
+               // document.getElementById("show").textContent = range.text; 
+               gec_it_post(range.text)
+            });  
+
+            
             // gec_it_post("You are an girl.");
 
             // Create a proxy object for the document.
@@ -79,7 +85,7 @@
 
             // Queue a command to get the current selection.
             // Create a proxy range object for the selection.
-            var range = thisDocument.getSelection();
+          
 
            // get_it_post(thisDocument);
 
@@ -102,24 +108,29 @@
     }
 
     function gec_it_post(query){
-
-        document.getElementById("show").textContent = "result:" + query;
+        
+        document.getElementById("ask").textContent = "Ask11:" + query;
         $.ajax({
             type: "POST",
             url: API_URL,
-            data: JSON.stringify({text: query}),
+            data: JSON.parse({'text': query}),
             headers: HEADERS,
+            // contentType: 'application/json',
+            //contentType: HEADERS,
             dataType: 'json',
             success: function (data) {
-                console.log("success")
-                document.getElementById("show").textContent = "success"; 
-                console.info(data);
-               // document.getElementById("show").textContent = data.result;
+                console.log("success");
+                $('#show').html("success");
+             
+                // document.getElementById("show").textContent = "success: " + data; 
+               
+                // document.getElementById("show").textContent = data.result;
             }, 
             error: function(XMLHttpRequest, textStatus, errorThrown) { 
                 console.log("Status: " + textStatus); 
                 console.log("Error: " + errorThrown);
-              document.getElementById("show").textContent = "error "; 
+                $('#show').html("error: "+ JSON.stringify( errorThrown )+"<br>Request:"+ JSON.stringify(XMLHttpRequest));
+              //   document.getElementById("show").textContent = "error: " +  errorThrown.val(); 
             } 
           })
 	}
