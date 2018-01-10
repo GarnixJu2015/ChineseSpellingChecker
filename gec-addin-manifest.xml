@@ -13,10 +13,10 @@
 
   <!--Version. Updates from the store only get triggered if there is a version change. -->
   <Version>1.0.0.0</Version>
-  <ProviderName>GEC</ProviderName>
+  <ProviderName>Chiao</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
-  <DisplayName DefaultValue="GEC-addin" />
+  <DisplayName DefaultValue="中文拼字校正" />
   <Description DefaultValue="[Document Add-in description]"/>
 
   <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->

@@ -2,7 +2,8 @@
 
 (function() {
   // API_URL = 'http://nlp-ryze.cs.nthu.edu.tw:1214/translate/'
-  var API_URL = 'https://fathomless-wave-32876.herokuapp.com/messages';
+  //var API_URL = 'https://fathomless-wave-32876.herokuapp.com/messages';
+  var API_URL = 'https://fathomless-wave-32876.herokuapp.com/translate';
   var HEADERS = {
     'Content-Type': 'application/json; charset=UTF-8',
     'Access-Control-Allow-Origin': '*',
@@ -52,7 +53,14 @@
       headers: HEADERS,
       beforeSend: function() {loadingMask.show();},
       complete: function() {loadingMask.hide();},
-      success: showCorrect,
+      success: function(res){
+      //   $('#correct-sec').html("answer:"+ res.result);
+         var content = res.result.replace(/\[-(.*?)-\]/g,
+        '<span class="deletion">$1</span>').
+        replace(/\{\+(.+?)\+\}/g, '<span class="correction">$1</span>');
+
+         $('#correct-sec').html(content);
+      },
       error: function(XMLHttpRequest) {
         console.error(XMLHttpRequest);
         $('#correct-sec').html('Something wrong, please reopen it.');
@@ -61,10 +69,11 @@
   }
 
   function showCorrect(data) {
-    var content = data.word_diff.replace(/\[-(.*?)-\]/g,
-        '<span class="deletion">$1</span>').
-        replace(/\{\+(.+?)\+\}/g, '<span class="correction">$1</span>');
+    $('#correct-sec').html(data);
+    // var content = data.word_diff.replace(/\[-(.*?)-\]/g,
+    //     '<span class="deletion">$1</span>').
+    //     replace(/\{\+(.+?)\+\}/g, '<span class="correction">$1</span>');
 
-    $('#correct-sec').html(content);
+    // $('#correct-sec').html(content);
   }
 })();
